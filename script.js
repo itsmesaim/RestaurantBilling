@@ -38,12 +38,11 @@ function calculateBill(order, tipPercentage, quantity) {
     total = total - Discount;
     console.log(`discount (5%): ₹${Discount.toFixed(2)}`);
     console.log(`Total Bill: ₹${total.toFixed(2)}`);
-    // total = 'Total Bill: ₹ $total.toFixed(2)';
-    // alert(total);
+    alert(`Total Bill: ₹ $total.toFixed(2)`);
   } else {
     console.log("discount (0%): ₹0");
     console.log(`Total Bill: ₹${total.toFixed(2)}`);
-    // alert('Total Bill: ₹${total.toFixed(2)}');
+    alert(`Total Bill: ₹${total.toFixed(2)}`);
   }
 }
 
@@ -73,6 +72,7 @@ function takeOrder() {
 
   calculateBill(order, tipPercentage, quantity);
 }
+
 
 // Start the order process
 takeOrder();
