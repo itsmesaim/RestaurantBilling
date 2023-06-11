@@ -12,6 +12,51 @@ const menu = {
   10: { name: "Lassi", price: 30 }
 };
 
+// Function to update the Menu
+function handleAdminFunctions() {
+  let continueAdmin = true;
+
+  while (continueAdmin) {
+    const action = prompt("Select an option:\n1. Add new menu\n2. Update prices\n3. Exit");
+
+    switch (action) {
+      case "1":
+        const newName = prompt("Enter the name of the new menu item:");
+        const newPrice = parseInt(prompt("Enter the price of the new menu item:"));
+        const newFoodNumb = Object.keys(menu).length + 1;
+        menu[newFoodNumb] = { name: newName, price: newPrice };
+        console.log("New menu item added successfully!");
+        break;
+
+      case "2":
+        console.log("Current Menu:");
+        for (const [foodNumb, food] of Object.entries(menu)) {
+          console.log(`${foodNumb}. ${food.name} - ₹${food.price}`);
+        }
+      
+
+        const foodNumbToUpdate = parseInt(prompt("Enter the food number to update:"));
+        const newUpdatedPrice = parseInt(prompt("Enter the new price:"));
+
+        if (menu.hasOwnProperty(foodNumbToUpdate)) {
+          menu[foodNumbToUpdate].price = newUpdatedPrice;
+          console.log("Menu item updated successfully!");
+        } else {
+          console.log("Invalid food number.");
+        }
+        break;
+
+      case "3":
+        continueAdmin = false;
+        break;
+
+      default:
+        console.log("Invalid option.");
+    }
+  }
+
+}
+
 // Function to calculate the total bill
 function calculateBill(order, tipPercentage, quantity) {
   let total = 0;
@@ -38,7 +83,7 @@ function calculateBill(order, tipPercentage, quantity) {
     total = total - Discount;
     console.log(`discount (5%): ₹${Discount.toFixed(2)}`);
     console.log(`Total Bill: ₹${total.toFixed(2)}`);
-    alert(`Total Bill: ₹ $total.toFixed(2)`);
+    alert(`Total Bill: ₹${total.toFixed(2)}`);
   } else {
     console.log("discount (0%): ₹0");
     console.log(`Total Bill: ₹${total.toFixed(2)}`);
@@ -53,7 +98,7 @@ function takeOrder() {
   let quantity;
 
   while (continueOrder) {
-    const foodNumb = parseInt(prompt("Enter food number (1-10):"));
+    const foodNumb = parseInt(prompt("Enter food number ( 1-10):"));
     const food = menu[foodNumb];
 
     if (food) {
@@ -74,5 +119,45 @@ function takeOrder() {
 }
 
 
-// Start the order process
-takeOrder();
+function handleUserFunctions() {
+  
+  let UserOrder = true;
+
+  while (UserOrder) {
+    // Start the order process
+    takeOrder();
+    UserOrder = confirm("Do you want to place another order?");
+  }
+
+}
+
+function SelectRole() {
+  let continueRole = true;
+  while (continueRole) {
+    const role = prompt("Select a role:\n1. Admin\n2. User\n3. Exit");
+
+    switch (role) {
+      case "1":
+        handleAdminFunctions();
+        break;
+
+      case "2":
+        handleUserFunctions();
+        break;
+
+      case "3":
+        continueRole = false;
+        break;
+
+      default:
+        console.log("Invalid role.");
+    }
+  }
+
+}
+
+// asking who admin/user
+SelectRole();
+
+
+
