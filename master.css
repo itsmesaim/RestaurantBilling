@@ -6,11 +6,11 @@ body {
   text-align: center;
 }
 
-.color-change {
-  animation: changeColor 1s infinite;
-}
+/* .color-change { */
+  /* animation: changeColor 1s infinite; */
+/* } */
 
-@keyframes changeColor {
+/* @keyframes changeColor { */
   /* 0% {
     color: red;
   }
@@ -30,7 +30,7 @@ body {
   100% {
     color: orange;
   } */
-  0% { color: red; }
+  /* 0% { color: red; }
   14% { color: orange; }
   28% { color: yellow; }
   42% { color: green; }
@@ -38,4 +38,4 @@ body {
   71% { color: indigo; }
   85% { color: violet; }
   100% { color: red; }
-}
+} */
