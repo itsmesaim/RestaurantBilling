@@ -17,20 +17,21 @@ function handleAdminFunctions() {
   let continueAdmin = true;
 
   while (continueAdmin) {
-    const action = prompt("Select an option:\n1. Add new menu\n2. Update prices\n3. Exit");
+    const action = prompt("Select an option:\n1. Add new Food\n2. Update prices\n3. Exit");
 
     switch (action) {
       case "1":
-        const newName = prompt("Enter the name of the new menu item:");
-        const newPrice = parseInt(prompt("Enter the price of the new menu item:"));
+        const newName = prompt("Enter the name of the new food you would like to add:");
+        const newPrice = parseInt(prompt("Enter the price of the new item:"));
         const newFoodNumb = Object.keys(menu).length + 1;
         menu[newFoodNumb] = { name: newName, price: newPrice };
         console.log("New menu item added successfully!");
+        console.log(menu);
         break;
 
       case "2":
         console.log("Current Menu:");
-        for (const [foodNumb, food] of Object.entries(menu)) {
+        for (const [foodNumb, food] in Object.entries(menu)) {
           console.log(`${foodNumb}. ${food.name} - ₹${food.price}`);
         }
       
