@@ -4,12 +4,8 @@ const menu = {
   2: { name: "Pizza", price: 150 },
   3: { name: "Fries", price: 69 },
   4: { name: "Sandwish", price: 149 },
-  5: { name: "Food5", price: 699 },
-  6: { name: "Food6", price: 5 },
-  7: { name: "Food7", price: 5 },
-  8: { name: "Food8", price: 5 },
-  9: { name: "ColdDrink", price: 50 },
-  10: { name: "Lassi", price: 30 }
+  5: { name: "ColdDrink", price: 50 },
+  6: { name: "Lassi", price: 30 }
 };
 
 // Function to update the menu on the HTML page
@@ -103,7 +99,7 @@ function takeOrder() {
   let quantity;
 
   while (continueOrder) {
-    const foodNumb = parseInt(prompt("Enter food number (1-10):"));
+    const foodNumb = parseInt(prompt("Enter food number:"));
     const food = menu[foodNumb];
 
     if (food) {
