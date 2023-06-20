@@ -12,153 +12,115 @@ const menu = {
   10: { name: "Lassi", price: 30 }
 };
 
-// Function to update the Menu
-function handleAdminFunctions() {
-  let continueAdmin = true;
+// Function to update the menu on the HTML page
+function updateMenu() {
+  const menuList = document.getElementById("menu-list");
+  menuList.innerHTML = "";
 
-  while (continueAdmin) {
-    const action = prompt("Select an option:\n1. Add new Food\n2. Update prices\n3. Exit");
-
-    switch (action) {
-      case "1":
-        const newName = prompt("Enter the name of the new food you would like to add:");
-        const newPrice = parseInt(prompt("Enter the price of the new item:"));
-        const newFoodNumb = Object.keys(menu).length + 1;
-        menu[newFoodNumb] = { name: newName, price: newPrice };
-        console.log("New menu item added successfully!");
-        console.log(menu);
-        break;
-
-      case "2":
-        console.log("Current Menu:");
-        for (const [foodNumb, food] in Object.entries(menu)) {
-          console.log(`${foodNumb}. ${food.name} - ₹${food.price}`);
-        }
-      
-
-        const foodNumbToUpdate = parseInt(prompt("Enter the food number to update:"));
-        const newUpdatedPrice = parseInt(prompt("Enter the new price:"));
-
-        if (menu.hasOwnProperty(foodNumbToUpdate)) {
-          menu[foodNumbToUpdate].price = newUpdatedPrice;
-          console.log("Menu item updated successfully!");
-        } else {
-          console.log("Invalid food number.");
-        }
-        break;
-
-      case "3":
-        continueAdmin = false;
-        break;
-
-      default:
-        console.log("Invalid option.");
-    }
+  for (const [foodNumb, food] of Object.entries(menu)) {
+    const listItem = document.createElement("li");
+    listItem.textContent = `${food.name} - ₹${food.price}`;
+    menuList.appendChild(listItem);
   }
-
 }
 
-// Function to calculate the total bill
-function calculateBill(order, tipPercentage, quantity) {
+// Function to update the update-message div on the HTML page
+function updateMessage(message) {
+  const updateMessageDiv = document.getElementById("update-message");
+  updateMessageDiv.textContent = message;
+}
+
+// Function to update the order-details div on the HTML page
+function updateOrderDetails(order, tipPercentage, quantity) {
+  const orderDetailsDiv = document.getElementById("order-details");
+  orderDetailsDiv.innerHTML = "";
+
   let total = 0;
 
   for (const item of order) {
     const food = menu[item.foodNumb];
-    const quantity = item.quantity;
-    const price = food.price * quantity;
-    total = total + price;
-    console.log(`${food.name} - ${quantity} x ₹${food.price} = ₹${price}`);
+    const itemPrice = food.price * item.quantity;
+    total += itemPrice;
+
+    const itemDetails = document.createElement("p");
+    itemDetails.textContent = `${food.name} - ${item.quantity} x ₹${food.price} = ₹${itemPrice}`;
+    orderDetailsDiv.appendChild(itemDetails);
   }
+
   const gst = total * 0.18; // 18% GST
-  total = total + gst;
-  console.log(`GST (18%): ₹${gst.toFixed(2)}`);
+  total += gst;
+
+  const gstDetails = document.createElement("p");
+  gstDetails.textContent = `GST (18%): ₹${gst.toFixed(2)}`;
+  orderDetailsDiv.appendChild(gstDetails);
 
   if (tipPercentage) {
     const tip = total * (tipPercentage / 100);
-    total = total + tip;
-    console.log(`Tip (${tipPercentage}%): ₹${tip.toFixed(2)}`);
+    total += tip;
+
+    const tipDetails = document.createElement("p");
+    tipDetails.textContent = `Tip (${tipPercentage}%): ₹${tip.toFixed(2)}`;
+    orderDetailsDiv.appendChild(tipDetails);
   }
 
-  if ((quantity) > 3) {
-    const Discount = total * 0.05; // 5% DISCOUNT
-    total = total - Discount;
-    console.log(`discount (5%): ₹${Discount.toFixed(2)}`);
-    console.log(`Total Bill: ₹${total.toFixed(2)}`);
-    alert(`Total Bill: ₹${total.toFixed(2)}`);
+  if (quantity > 3) {
+    const discount = total * 0.05; // 5% DISCOUNT
+    total -= discount;
+
+    const discountDetails = document.createElement("p");
+    discountDetails.textContent = `Discount (5%): ₹${discount.toFixed(2)}`;
+    orderDetailsDiv.appendChild(discountDetails);
   } else {
-    console.log("discount (0%): ₹0");
-    console.log(`Total Bill: ₹${total.toFixed(2)}`);
-    alert(`Total Bill: ₹${total.toFixed(2)}`);
+    const discountDetails = document.createElement("p");
+    discountDetails.textContent = `Discount (0%): ₹0`;
+    orderDetailsDiv.appendChild(discountDetails);
   }
+
+  const totalBillDetails = document.createElement("p");
+  totalBillDetails.textContent = `Total Bill: ₹${total.toFixed(2)}`;
+  orderDetailsDiv.appendChild(totalBillDetails);
 }
 
-// Function to prompt user for food selection and quantity
+// Function to add a new food item to the menu
+function addNewFood() {
+  const newName = prompt("Enter the name of the new food you would like to add:");
+  const newPrice = parseInt(prompt("Enter the price of the new item:"));
+  const newFoodNumb = Object.keys(menu).length + 1;
+  menu[newFoodNumb] = { name: newName, price: newPrice };
+  updateMenu();
+  updateMessage("New menu item added successfully!");
+}
+
+// Function to handle the admin functions
+function handleAdminFunctions() {
+  addNewFood();
+}
+
+// Function to take the order from the user
 function takeOrder() {
   const order = [];
   let continueOrder = true;
   let quantity;
 
   while (continueOrder) {
-    const foodNumb = parseInt(prompt("Enter food number ( 1-10):"));
+    const foodNumb = parseInt(prompt("Enter food number (1-10):"));
     const food = menu[foodNumb];
 
     if (food) {
       quantity = parseInt(prompt(`Enter quantity for ${food.name}:`));
       order.push({ foodNumb, quantity });
     } else {
-      console.log("Invalid food number. Please try again.");
+      alert("Invalid food number. Please try again.");
     }
 
     continueOrder = confirm("Do you want to add more items to your order?");
   }
 
-  const tipPercentage = parseFloat(
-    prompt("Enter tip percentage (or 0 for no tip):")
-  );
+  const tipPercentage = parseInt(prompt("Enter tip percentage (or 0 for no tip):"));
 
-  calculateBill(order, tipPercentage, quantity);
+  updateOrderDetails(order, tipPercentage, quantity);
 }
 
-
-function handleUserFunctions() {
-  
-  let UserOrder = true;
-
-  while (UserOrder) {
-    // Start the order process
-    takeOrder();
-    UserOrder = confirm("Do you want to place another order?");
-  }
-
-}
-
-function SelectRole() {
-  let continueRole = true;
-  while (continueRole) {
-    const role = prompt("Select a role:\n1. Admin\n2. User\n3. Exit");
-
-    switch (role) {
-      case "1":
-        handleAdminFunctions();
-        break;
-
-      case "2":
-        handleUserFunctions();
-        break;
-
-      case "3":
-        continueRole = false;
-        break;
-
-      default:
-        console.log("Invalid role.");
-    }
-  }
-
-}
-
-// asking who admin/user
-SelectRole();
-
-
+// Initialize the menu on page load
+updateMenu();
 

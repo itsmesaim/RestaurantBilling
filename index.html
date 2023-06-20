@@ -1,30 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Billing System</title>
-	<link rel="stylesheet" href="master.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant billing system</title>
+    <link rel="stylesheet" href="master.css">
+
 </head>
 
 <body>
-	<h1 id="vehicle1"> Resturant billing system</h1>
-	<h3>Here is our menu, give input carefully</h3>
-	<ol class="color-change">
-		<li>Burger</li>
-		<li>Pizza</li>
-		<li>FRIES</li>
-		<li>Sandwich</li>
-		<li>Food5</li>
-		<li>Food6</li>
-		<li>Food7</li>
-		<li>Food8</li>
-		<li>Cold Drink</li>
-		<li>Lassi</li>
-	</ol>
-	<script src="script.js"></script>
+
+    <div class="container">
+        <h2 class="object" data-value="3">Welcome!!!<br><span>
+                <&nbsp>To our Restaurant<br>
+                    <button onclick="fun()" type="button" id="StartBtn"> Start Now </button>
+            </span></h2>
+
+        <img src="./image/1.png" class="object" data-value="-2" alt="">
+        <img src="./image/2.png" class="object" data-value="6" alt="">
+        <img src="./image/3.png" class="object" data-value="4" alt="">
+        <img src="./image/4.png" class="object" data-value="-6" alt="">
+        <img src="./image/5.png" class="object" data-value="8" alt="">
+    </div>
+
+    <script type="text/javascript">
+        document.addEventListener("mousemove", parallax);
+        function parallax(e) {
+            document.querySelectorAll(".object").forEach(function (move) {
+
+                var moving_value = move.getAttribute("data-value");
+                var x = (e.clientX * moving_value) / 250;
+                var y = (e.clientY * moving_value) / 250;
+
+                move.style.transform = "translateX(" + x + "px) translateY(" + y + "px)";
+            });
+        }
+        document.addEventListener("DOMContentLoaded", function () {
+            var startBtn = document.getElementById("StartBtn");
+            if (startBtn) {
+                startBtn.addEventListener("click", function () {
+                    console.log("Sample 134");
+                    window.location.href = './Order.html';
+                });
+            } else {
+                console.log("Start button not found.");
+            }
+        });
+
+    </script>
+
 </body>
 
 </html>
+
